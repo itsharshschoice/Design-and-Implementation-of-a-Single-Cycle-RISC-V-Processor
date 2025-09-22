@@ -22,16 +22,22 @@ This repository contains the design and Verilog implementation of a Single-Cycle
 
 ```mermaid
 flowchart TD
-    PC[Program Counter] -->|pc_out| IC[Instruction Cache]
+    PC[Program Counter] --> IC[Instruction Cache]
     IC --> RF[Register File]
+    IC --> Immediate_Generater
+    Immediate_Generater --> MUX2[ALU MUX]
     RF --> ALU
+    RF --> MUX2[ALU MUX]
+    MUX2[ALU MUX] --> ALU
     ALU --> DC[Data Cache]
-    DC --> MUX[Writeback MUX]
-    MUX --> RF
-    ALU --> PC_MUX
+    RF --> DC
+    DC --> MUX3[Writeback MUX]
+    MUX3[Writeback MUX] --> RF
+    ALU --> MUX1[PC MUX]
     PC --> PC_Adder
-    PC_Adder --> PC_MUX
-    PC_MUX --> PC
+    4 --> PC_Adder
+    PC_Adder --> MUX1[PC MUX]
+    MUX1[PC MUX] --> PC
 ```
 
 ## **Modules Description**
